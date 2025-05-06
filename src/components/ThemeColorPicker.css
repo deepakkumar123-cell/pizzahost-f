@@ -1,0 +1,120 @@
+.theme-picker {
+  position: fixed;
+  bottom: 40px;
+  right: 30px;
+  z-index: 1000;
+}
+
+.theme-toggle-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: var(--text-white);
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: var(--box-shadow);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition);
+}
+
+.color-options {
+  position: absolute;
+  bottom: 60px;
+  right: 0;
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: var(--box-shadow-lg);
+  width: 240px;
+}
+
+.color-options-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.color-options-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--text-light);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  transition: var(--transition);
+}
+
+.close-btn:hover {
+  color: var(--text-color);
+}
+
+.color-swatches {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.color-swatch {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.color-swatch.active {
+  border-color: var(--text-color);
+  box-shadow: 0 0 0 2px var(--surface-color);
+}
+
+@media (max-width: 768px) {
+  .theme-picker {
+    bottom: 30px;
+    right: 20px;
+  }
+  
+  .theme-toggle-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+  }
+  
+  .color-options {
+    width: 220px;
+  }
+}
+
+@media (max-width: 576px) {
+  .theme-picker {
+    bottom: 20px;
+    right: 15px;
+  }
+  
+  .theme-toggle-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  
+  .color-options {
+    width: 200px;
+    right: -10px;
+  }
+} 
