@@ -16,7 +16,7 @@ const API_BASE_URL = process.env.NODE_ENV === 'production'
 
 // CORS configuration
 const corsOptions = {
-  origin: ['https://pizza-f.vercel.app', 'http://localhost:5173', 'http://localhost:3000'],
+  origin: ['https://www.pizza-host.in', 'https://pizza-f.vercel.app', 'http://localhost:5173', 'http://localhost:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 };
