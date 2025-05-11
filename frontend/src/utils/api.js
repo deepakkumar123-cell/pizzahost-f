@@ -1,18 +1,33 @@
 import axios from 'axios';
 
-// API base URL configuration
-const API_URL = 'https://pizzahost-b.vercel.app/api';
+// API base URL configuration with fallback options
+const API_URL_OPTIONS = {
+  primary: 'https://pizzahost-b.vercel.app/api',
+  fallback: '/api' // Relative URL for proxying through frontend hosting
+};
 
-console.log('API URL configured as:', API_URL);
+// Start with primary API URL
+let currentApiUrl = API_URL_OPTIONS.primary;
+let hasFailedOnce = false;
+
+console.log('API URL initially configured as:', currentApiUrl);
 
 // Create axios instance with debugging
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: currentApiUrl,
   headers: {
     'Content-Type': 'application/json'
   },
-  timeout: 15000 // 15 second timeout
+  timeout: 15000, // 15 second timeout
+  withCredentials: false // Don't send cookies cross-domain
 });
+
+// Function to update the base URL
+const updateBaseUrl = (newUrl) => {
+  console.log(`Switching API URL to: ${newUrl}`);
+  currentApiUrl = newUrl;
+  api.defaults.baseURL = newUrl;
+};
 
 // Add request interceptor for debugging
 api.interceptors.request.use(
@@ -26,7 +41,7 @@ api.interceptors.request.use(
   }
 );
 
-// Add response interceptor for debugging
+// Add response interceptor for debugging and fallback handling
 api.interceptors.response.use(
   response => {
     console.log('API Response:', response.status, response.data);
@@ -34,6 +49,22 @@ api.interceptors.response.use(
   },
   error => {
     console.error('API Response Error:', error.response?.status, error.response?.data || error.message);
+    
+    // Check if this is a CORS or network error and we haven't tried the fallback yet
+    if ((error.code === 'ERR_NETWORK' || error.message === 'Network Error') && 
+        !hasFailedOnce && 
+        currentApiUrl === API_URL_OPTIONS.primary) {
+      
+      console.log('Detected network/CORS error. Switching to fallback API URL');
+      hasFailedOnce = true;
+      updateBaseUrl(API_URL_OPTIONS.fallback);
+      
+      // Retry the request with the new base URL
+      const retryConfig = error.config;
+      retryConfig.baseURL = currentApiUrl;
+      return axios(retryConfig);
+    }
+    
     return Promise.reject(error);
   }
 );

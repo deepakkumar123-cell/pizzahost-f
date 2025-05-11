@@ -16,21 +16,20 @@ const API_BASE_URL = process.env.NODE_ENV === 'production'
 
 // Enable CORS for all routes
 app.use(cors({
-  origin: ['https://www.pizza-host.in', 'http://localhost:3000'],
+  origin: 'https://www.pizza-host.in',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
   credentials: true,
   optionsSuccessStatus: 204
 }));
 
-// Handle preflight OPTIONS requests separately
-app.options('*', (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'https://www.pizza-host.in');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.status(204).send();
-});
+// Handle preflight OPTIONS requests explicitly
+app.options('*', cors({
+  origin: 'https://www.pizza-host.in',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  credentials: true
+}));
 
 // Middlewares
 app.use(express.json());
