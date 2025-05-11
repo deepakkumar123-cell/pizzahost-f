@@ -1,27 +1,21 @@
 import axios from 'axios';
 
-// API base URL configuration with multiple fallback options
-const API_URL_OPTIONS = {
-  // Option 1: Direct backend API (likely to have CORS issues)
-  direct: 'https://pizzahost-b.vercel.app/api',
-  // Option 2: Use frontend domain as proxy (preferred)
-  proxy: '/api', 
-  // Option 3: Last resort external CORS proxy (if needed)
-  corsProxy: 'https://cors-anywhere.herokuapp.com/https://pizzahost-b.vercel.app/api'
-};
+// CRITICAL FIX FOR DEPLOYMENT
+// We override any previous configurations to ensure we're using the right approach
+console.log('INITIALIZING API WITH FIXED CONFIGURATION');
 
-// Always start with the proxy URL to avoid CORS issues
-const currentApiUrl = API_URL_OPTIONS.proxy;
+// Our serverless function proxy base URL
+const API_URL = '/api/order-menu'; 
 
-console.log('API URL set to:', currentApiUrl);
+console.log('API URL forcibly set to:', API_URL);
 
 // Create axios instance with debugging
 const api = axios.create({
-  baseURL: currentApiUrl,
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json'
   },
-  timeout: 20000, // 20 second timeout
+  timeout: 30000, // 30 second timeout
   withCredentials: false // Don't send cookies cross-domain
 });
 
@@ -29,11 +23,6 @@ const api = axios.create({
 api.interceptors.request.use(
   config => {
     console.log('API Request:', config.method.toUpperCase(), config.url, config.data);
-    // For OPTIONS requests, make sure they have the right headers
-    if (config.method.toUpperCase() === 'OPTIONS') {
-      config.headers['Access-Control-Request-Method'] = 'POST, GET, OPTIONS, PUT, DELETE';
-      config.headers['Access-Control-Request-Headers'] = 'Content-Type, Authorization';
-    }
     return config;
   },
   error => {
@@ -97,33 +86,9 @@ export const getMenuItem = async (id) => {
 export const createOrder = async (orderData) => {
   return handleApiRequest(async () => {
     console.log('Creating order with data:', JSON.stringify(orderData, null, 2));
-    
-    try {
-      // First try with our standard API instance
-      const response = await api.post('/orders', orderData);
-      console.log('Order created successfully:', response.data);
-      return response.data;
-    } catch (error) {
-      console.error('Error creating order with standard API:', error.message);
-      
-      // If that fails, try a direct fetch call as a last resort
-      console.log('Attempting alternative fetch approach...');
-      const fetchResponse = await fetch('/api/orders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(orderData)
-      });
-      
-      if (!fetchResponse.ok) {
-        throw new Error(`Fetch failed with status: ${fetchResponse.status}`);
-      }
-      
-      const data = await fetchResponse.json();
-      console.log('Order created successfully with fetch:', data);
-      return data;
-    }
+    const response = await api.post('/orders', orderData);
+    console.log('Order created successfully:', response.data);
+    return response.data;
   });
 };
 
