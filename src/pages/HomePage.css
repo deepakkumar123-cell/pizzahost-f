@@ -102,11 +102,10 @@
   font-size: 1rem;
   text-decoration: none;
   text-align: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
   cursor: pointer;
   letter-spacing: 0.5px;
   position: relative;
-  overflow: hidden;
 }
 
 .btn-lg {
@@ -116,10 +115,10 @@
 }
 
 .btn-main {
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-color-dark));
+  background: var(--primary-color);
   color: white;
   border: none;
-  box-shadow: 0 4px 15px rgba(var(--primary-color-rgb), 0.4);
+  box-shadow: 0 4px 15px rgba(var(--primary-color-rgb), 0.3);
 }
 
 .btn-outline {
@@ -129,8 +128,8 @@
 }
 
 .btn-main:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(var(--primary-color-rgb), 0.5);
+  background: var(--primary-color-dark);
+  box-shadow: 0 6px 20px rgba(var(--primary-color-rgb), 0.4);
 }
 
 .btn-outline:hover {
@@ -141,70 +140,23 @@
 
 /* New Enhanced Button Styles */
 .pulse-strong {
-  animation: pulse-animation 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes pulse-animation {
-  0% {
-    box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0.6);
-  }
-  70% {
-    box-shadow: 0 0 0 15px rgba(var(--primary-color-rgb), 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0);
-  }
+  /* Remove animation */
 }
 
 .glow-effect {
   position: relative;
-  z-index: 1;
 }
 
 .glow-effect::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, 
-    var(--primary-color),
-    var(--primary-color-dark),
-    var(--primary-color)
-  );
-  z-index: -1;
-  border-radius: 52px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.glow-effect:hover::before {
-  opacity: 0.7;
+  display: none;
 }
 
 .glow-effect::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
-  transition: 0.5s;
-}
-
-.glow-effect:hover::after {
-  left: 100%;
+  display: none;
 }
 
 .hover-scale:hover {
-  transform: scale(1.05);
+  transform: none;
 }
 
 /* CTA section button enhancement */
@@ -212,20 +164,7 @@
   padding: 18px 40px;
   font-size: 1.3rem;
   border-radius: 50px;
-  animation: pulse 2s infinite, float 6s infinite ease-in-out;
-}
-
-/* Add missing keyframes animation */
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 15px rgba(255, 255, 255, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-  }
+  /* Remove animations */
 }
 
 /* Additional animations for the pizza cards */
