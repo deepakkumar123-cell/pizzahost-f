@@ -245,9 +245,33 @@ const HomePage = () => {
       <section className="cta-section">
         <div className="container">
           <div className="cta-content">
-            <h2>Ready to Order Your Favorite Pizza?</h2>
-            <p>Hungry? We're just a few clicks away. Order now and enjoy our delicious pizzas in Meerut!</p>
-            <Link to="/menu" className="btn btn-main">Order Now</Link>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              Ready to Order Your Favorite Pizza?
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              Experience the perfect blend of authentic flavors and premium ingredients. 
+              Order now and get your favorite pizza delivered hot and fresh to your doorstep!
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <Link to="/menu" className="btn btn-main">
+                Order Now
+              </Link>
+            </motion.div>
           </div>
         </div>
       </section>
