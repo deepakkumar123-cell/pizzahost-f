@@ -183,23 +183,23 @@
 
 /* CTA section button enhancement */
 .cta-section .btn-main {
-  padding: 18px 40px;
-  font-size: 1.3rem;
-  border-radius: 50px;
-  animation: pulse 2s infinite, float 6s infinite ease-in-out;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 0.95rem 2.2rem;
+  border-radius: 32px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  outline: none;
+  display: inline-block;
 }
 
-/* Add missing keyframes animation */
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 15px rgba(255, 255, 255, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-  }
+.cta-section .btn-main:hover, .cta-section .btn-main:focus {
+  background: var(--primary-color-dark);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
 }
 
 /* Additional animations for the pizza cards */
@@ -583,25 +583,6 @@
   font-size: 1.2rem;
   margin-bottom: 2rem;
   line-height: 1.6;
-}
-
-.cta-section .btn-main {
-  background: white;
-  color: var(--primary-color);
-  font-size: 1.2rem;
-  font-weight: 600;
-  padding: 1rem 2.5rem;
-  border-radius: 50px;
-  border: none;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
-}
-
-.cta-section .btn-main:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-  background: white;
-  color: var(--primary-color-dark);
 }
 
 /* Media Queries */
