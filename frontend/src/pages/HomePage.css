@@ -183,81 +183,23 @@
 
 /* CTA section button enhancement */
 .cta-section .btn-main {
-  padding: 1.2rem 2.8rem;
+  padding: 18px 40px;
   font-size: 1.3rem;
-  font-weight: 700;
   border-radius: 50px;
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-  border: none;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 10px 20px rgba(var(--primary-color-rgb), 0.3);
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
+  animation: pulse 2s infinite, float 6s infinite ease-in-out;
 }
 
-.cta-section .btn-main::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
-  z-index: -1;
-  transition: opacity 0.3s ease;
-  opacity: 0;
-}
-
-.cta-section .btn-main:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 15px 30px rgba(var(--primary-color-rgb), 0.4);
-}
-
-.cta-section .btn-main:hover::before {
-  opacity: 1;
-}
-
-.cta-section .btn-main.pulse-strong {
-  animation: enhanced-pulse 2s infinite;
-}
-
-@keyframes enhanced-pulse {
+/* Add missing keyframes animation */
+@keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0.7);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
   }
   70% {
-    box-shadow: 0 0 0 15px rgba(var(--primary-color-rgb), 0);
+    box-shadow: 0 0 0 15px rgba(255, 255, 255, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
   }
-}
-
-.cta-section .btn-main.glow-effect::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255, 255, 255, 0.1),
-    transparent
-  );
-  transform: rotate(45deg);
-  transition: 0.5s;
-  z-index: -1;
-}
-
-.cta-section .btn-main.glow-effect:hover::after {
-  left: 100%;
-  top: 100%;
 }
 
 /* Additional animations for the pizza cards */
@@ -599,30 +541,67 @@
   font-weight: 700;
 }
 
-/* CTA Section */
+/* CTA Section Styles */
 .cta-section {
-  padding: 100px 0;
-  background: linear-gradient(135deg, #e53935, #8e24aa);
-  color: var(--text-white);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
+  padding: 5rem 0;
+  text-align: center;
   position: relative;
-  margin-top: 80px;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('/src/assets/pattern.png');
+  opacity: 0.1;
+  z-index: 1;
 }
 
 .cta-content {
-  text-align: center;
+  position: relative;
+  z-index: 2;
   max-width: 800px;
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .cta-content h2 {
-  font-size: 3rem;
-  margin-bottom: 20px;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .cta-content p {
-  font-size: 1.25rem;
-  margin-bottom: 40px;
-  opacity: 0.9;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.cta-section .btn-main {
+  background: white;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.cta-section .btn-main:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  background: white;
+  color: var(--primary-color-dark);
 }
 
 /* Media Queries */
@@ -731,7 +710,16 @@
   }
   
   .cta-content h2 {
-    font-size: 2.2rem;
+    font-size: 2rem;
+  }
+  
+  .cta-content p {
+    font-size: 1.1rem;
+  }
+  
+  .cta-section .btn-main {
+    font-size: 1.1rem;
+    padding: 0.9rem 2rem;
   }
 }
 
