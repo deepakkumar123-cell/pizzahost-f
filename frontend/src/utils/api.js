@@ -9,30 +9,14 @@ console.log('API URL configured as:', API_URL);
 const api = axios.create({
   baseURL: API_URL,
   headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'X-Requested-With': 'XMLHttpRequest'
+    'Content-Type': 'application/json'
   },
-  // Don't use withCredentials unless you specifically need cookies
-  withCredentials: false,
   timeout: 15000 // 15 second timeout
 });
-
-// Helper method to ensure proper CORS headers
-const addCorsHeaders = (config) => {
-  if (!config.headers) {
-    config.headers = {};
-  }
-  config.headers['Origin'] = window.location.origin;
-  return config;
-};
 
 // Add request interceptor for debugging
 api.interceptors.request.use(
   config => {
-    // Add CORS headers to each request
-    config = addCorsHeaders(config);
-    
     console.log('API Request:', config.method.toUpperCase(), config.url, config.data);
     return config;
   },
