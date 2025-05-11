@@ -15,27 +15,21 @@ const API_BASE_URL = process.env.NODE_ENV === 'production'
   : `http://localhost:${process.env.PORT || 3000}/api`;
 
 // CORS configuration
-const corsOptions = {
-  origin: ['https://www.pizza-host.in', 'https://pizza-f.vercel.app', 'http://localhost:5173', 'http://localhost:3000'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
-  credentials: true,
-  preflightContinue: false,
-  optionsSuccessStatus: 204
-};
-
-// Middlewares
-app.use(cors(corsOptions));
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'https://www.pizza-host.in');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
   res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Max-Age', '86400'); // 24 hours
+  
+  // Handle preflight requests
   if (req.method === 'OPTIONS') {
     return res.status(204).end();
   }
   next();
 });
+
+// Middlewares
 app.use(express.json());
 
 // Add request logging middleware

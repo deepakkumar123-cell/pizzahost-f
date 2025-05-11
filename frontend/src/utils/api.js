@@ -11,14 +11,22 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    'X-Requested-With': 'XMLHttpRequest'
+    'X-Requested-With': 'XMLHttpRequest',
+    'Origin': 'https://www.pizza-host.in'
   },
-  withCredentials: true
+  withCredentials: true,
+  timeout: 10000 // 10 second timeout
 });
 
 // Add request interceptor for debugging
 api.interceptors.request.use(
   config => {
+    // Ensure headers are set for every request
+    config.headers['Content-Type'] = 'application/json';
+    config.headers['Accept'] = 'application/json';
+    config.headers['X-Requested-With'] = 'XMLHttpRequest';
+    config.headers['Origin'] = 'https://www.pizza-host.in';
+    
     console.log('API Request:', config.method.toUpperCase(), config.url, config.data);
     return config;
   },
