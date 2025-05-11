@@ -11,21 +11,27 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    'X-Requested-With': 'XMLHttpRequest',
-    'Origin': 'https://www.pizza-host.in'
+    'X-Requested-With': 'XMLHttpRequest'
   },
-  withCredentials: true,
-  timeout: 10000 // 10 second timeout
+  // Don't use withCredentials unless you specifically need cookies
+  withCredentials: false,
+  timeout: 15000 // 15 second timeout
 });
+
+// Helper method to ensure proper CORS headers
+const addCorsHeaders = (config) => {
+  if (!config.headers) {
+    config.headers = {};
+  }
+  config.headers['Origin'] = window.location.origin;
+  return config;
+};
 
 // Add request interceptor for debugging
 api.interceptors.request.use(
   config => {
-    // Ensure headers are set for every request
-    config.headers['Content-Type'] = 'application/json';
-    config.headers['Accept'] = 'application/json';
-    config.headers['X-Requested-With'] = 'XMLHttpRequest';
-    config.headers['Origin'] = 'https://www.pizza-host.in';
+    // Add CORS headers to each request
+    config = addCorsHeaders(config);
     
     console.log('API Request:', config.method.toUpperCase(), config.url, config.data);
     return config;
@@ -48,9 +54,27 @@ api.interceptors.response.use(
   }
 );
 
+// Generic error handler wrapper
+const handleApiRequest = async (requestFn) => {
+  try {
+    return await requestFn();
+  } catch (error) {
+    // Log error details
+    console.error('API request failed:', error.message, error);
+    
+    // Add additional context to the error
+    if (!error.isHandled) {
+      error.isHandled = true;
+      error.friendlyMessage = 'Failed to communicate with the server. Please try again later.';
+    }
+    
+    throw error;
+  }
+};
+
 // Menu API calls
 export const getMenuItems = async () => {
-  try {
+  return handleApiRequest(async () => {
     const response = await api.get('/menu');
     // Enhanced debugging for response structure
     console.log('Menu items response structure:', {
@@ -60,78 +84,53 @@ export const getMenuItems = async () => {
       nestedDataIsArray: response.data && Array.isArray(response.data.data)
     });
     return response;
-  } catch (error) {
-    console.error('Error fetching menu items:', error);
-    throw error;
-  }
+  });
 };
 
 export const getMenuItem = async (id) => {
-  try {
+  return handleApiRequest(async () => {
     const response = await api.get(`/menu/${id}`);
     return response.data;
-  } catch (error) {
-    console.error(`Error fetching menu item ${id}:`, error);
-    throw error;
-  }
+  });
 };
 
 // Order API calls
 export const createOrder = async (orderData) => {
-  try {
+  return handleApiRequest(async () => {
     console.log('Creating order with data:', JSON.stringify(orderData, null, 2));
     const response = await api.post('/orders', orderData);
     console.log('Order created successfully:', response.data);
     return response.data;
-  } catch (error) {
-    console.error('Error creating order:', error);
-    console.error('Error details:', error.response?.data);
-    if (error.response?.status === 400) {
-      console.error('Bad request error - check the order data format');
-    }
-    throw error;
-  }
+  });
 };
 
 export const getOrders = async () => {
-  try {
+  return handleApiRequest(async () => {
     const response = await api.get('/orders');
     return response.data;
-  } catch (error) {
-    console.error('Error fetching orders:', error);
-    throw error;
-  }
+  });
 };
 
 export const getOrder = async (id) => {
-  try {
+  return handleApiRequest(async () => {
     const response = await api.get(`/orders/${id}`);
     return response.data;
-  } catch (error) {
-    console.error(`Error fetching order ${id}:`, error);
-    throw error;
-  }
+  });
 };
 
 export const updateOrderStatus = async (id, statusData) => {
-  try {
+  return handleApiRequest(async () => {
     const response = await api.put(`/orders/${id}`, statusData);
     return response.data;
-  } catch (error) {
-    console.error(`Error updating order ${id}:`, error);
-    throw error;
-  }
+  });
 };
 
 // Test email functionality
 export const testEmail = async (email) => {
-  try {
+  return handleApiRequest(async () => {
     console.log('Sending test email to:', email);
     const response = await api.post('/orders/test-email', { email });
     console.log('Test email response:', response.data);
     return response.data;
-  } catch (error) {
-    console.error('Error testing email:', error);
-    throw error;
-  }
+  });
 }; 
