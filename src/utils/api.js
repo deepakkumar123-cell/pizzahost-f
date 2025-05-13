@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // API base URL configuration
-const API_URL = 'https://pizzahost-b.vercel.app/api';
+const API_URL = 'https://pizza-b.vercel.app/api';
 
 console.log('API URL configured as:', API_URL);
 

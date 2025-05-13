@@ -128,6 +128,9 @@ const HomePage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.9, duration: 0.6 }}
             >
+              <Link to="/menu" className="btn btn-main btn-lg pulse-strong glow-effect">
+                Order Now
+              </Link>
               <Link to="/menu" className="btn btn-outline btn-lg hover-scale">
                 View Menu
               </Link>
@@ -244,6 +247,7 @@ const HomePage = () => {
           <div className="cta-content">
             <h2>Ready to Order Your Favorite Pizza?</h2>
             <p>Hungry? We're just a few clicks away. Order now and enjoy our delicious pizzas in Meerut!</p>
+            <Link to="/menu" className="btn btn-main btn-lg pulse-strong glow-effect">Order Now</Link>
           </div>
         </div>
       </section>
